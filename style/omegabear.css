@@ -1,6 +1,7 @@
 body {
 	background-color: #611C1C;
 	color: #e3e3e3;
+	font-size: 20px;
 }
 
 .app-container {
@@ -8,7 +9,7 @@ body {
 }
 
 .app-container.landing-mode {
-	margin-top: 15em;
+	margin-top: 10%;
 }
 
 .logo-container {
@@ -24,6 +25,19 @@ body {
 	margin: 0 auto;
 }
 
-input.search {
-	
+.results-container {
+	margin: 0 auto;
+	max-width: 35em;
+}
+
+.result-row {
+	padding-left: 5em;
+	padding-right: 5em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	background-color: rgba(0,0,0,0.2);
+}
+
+.result-row.zebra {
+	background-color: rgba(0,0,0,0.1);
 }
