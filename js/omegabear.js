@@ -7,6 +7,7 @@ $(function () {
 	searchButton = searchContainer.find('button.search'),
 
 	resultsContainer = $('.results-container'),
+	loadingMessage = resultsContainer.find('.loading-message'),
 	resultsCount = resultsContainer.find('.results-count'),
 	resultsRows = resultsContainer.find('.results-rows');
 
@@ -23,11 +24,22 @@ $(function () {
 	});
 
 	function activateSearch() {
-		disableSearchForm();
+		loading();
 		wordSearch(searchInput.val().toLowerCase()).done(function (res) {
-			showResults(res);
-			enableSearchForm();
+			doneLoading(res);
 		});
+	}
+
+	function loading() {
+		loadingMessage.show();
+		clearResults();
+		disableSearchForm();
+	}
+
+	function doneLoading(res) {
+		enableSearchForm();
+		showResults(res);
+		loadingMessage.hide();
 	}
 
 	function disableSearchForm() {
@@ -40,6 +52,11 @@ $(function () {
 		searchButton.prop('disabled', false);
 	}
 
+	function clearResults() {
+		resultsCount.empty();
+		resultsRows.empty();
+	}
+
 	function showResults(res) {
 		var zebra = true;
 		if (!(res && res.length)) {
@@ -49,7 +66,6 @@ $(function () {
 		} else {
 			resultsCount.text('You can make ' + res.length + ' words:');
 		}
-		resultsRows.empty();
 		$.each(res, function (i,v) {
 			var row = $('<div/>')
 				.addClass('result-row')

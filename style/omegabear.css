@@ -44,3 +44,7 @@ body {
 .result-row.zebra {
 	background-color: rgba(0,0,0,0.1);
 }
+
+.loading-message {
+	display: none;
+}
