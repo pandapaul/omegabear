@@ -6,16 +6,29 @@ $(function () {
 	searchInput = searchContainer.find('input.search'),
 	searchButton = searchContainer.find('button.search'),
 
-	resultsContainer = $('.results-container');
+	resultsContainer = $('.results-container'),
+	resultsCount = resultsContainer.find('.results-count'),
+	resultsRows = resultsContainer.find('.results-rows');
 
+
+	searchInput.on('keydown', function (ev, data) {
+		var character;
+		if (ev.which === 13) {
+			activateSearch();
+		}
+	});
 
 	searchButton.on('click', function () {
+		activateSearch();
+	});
+
+	function activateSearch() {
 		disableSearchForm();
-		wordSearch(searchInput.val()).done(function (res) {
+		wordSearch(searchInput.val().toLowerCase()).done(function (res) {
 			showResults(res);
 			enableSearchForm();
 		});
-	});
+	}
 
 	function disableSearchForm() {
 		searchInput.prop('disabled', true);
@@ -29,12 +42,19 @@ $(function () {
 
 	function showResults(res) {
 		var zebra = true;
-		resultsContainer.empty();
+		if (!(res && res.length)) {
+			resultsCount.text('You can\'t make any words');
+		} else if (res.length === 1) {
+			resultsCount.text('You can make 1 word:');
+		} else {
+			resultsCount.text('You can make ' + res.length + ' words:');
+		}
+		resultsRows.empty();
 		$.each(res, function (i,v) {
 			var row = $('<div/>')
 				.addClass('result-row')
-				.text(v)
-				.appendTo(resultsContainer);
+				.text(v.toUpperCase())
+				.appendTo(resultsRows);
 			row.toggleClass('zebra', zebra);
 			zebra = !zebra;
 		});
